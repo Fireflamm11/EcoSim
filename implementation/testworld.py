@@ -1,3 +1,3 @@
 from structure.world import World
 
-testworld = World(10, 10)
+test_world = World(3, 3)

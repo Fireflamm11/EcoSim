@@ -1,3 +1,4 @@
-from implementation.testworld import testworld
+from structure.world import World
 
-testworld.testprint()
+world = World(4, 4)
+world.test_print()
