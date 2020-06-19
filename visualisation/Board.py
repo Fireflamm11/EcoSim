@@ -36,9 +36,9 @@ class Board:
                           sticky="nesw")
 
         for col_num in range(window.grid_size()[1] + 1):
-            window.columnconfigure(col_num, weight=1, minsize=50)
+            window.columnconfigure(col_num, weight=1, minsize=5)
         for row_num in range(window.grid_size()[0]):
-            window.rowconfigure(row_num, weight=1, minsize=50)
+            window.rowconfigure(row_num, weight=1, minsize=5)
 
     def add_offset_row(self, x, y):
         cell = tk.Frame(master=self.window, bg='blue')

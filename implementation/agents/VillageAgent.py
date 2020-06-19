@@ -35,6 +35,5 @@ class VillageAgent(Agent):
         self.village.place.grid.world.dead_pops.append(pop)
         try:
             self.village.place.changed_values['dead'] += 1
-            print(self.village.place.changed_values['dead'])
         except KeyError:
             self.village.place.changed_values['dead'] = 1
