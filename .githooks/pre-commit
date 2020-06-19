@@ -1,0 +1,12 @@
+#!/bin/sh
+
+flake8 --version || exit 1 # Ensure failure on missing installation
+lint_results=$(flake8 --config=.flake8)
+if [ $? -eq 1 ]; then
+   printf "Cannot push, Linting failed\n\nFlake8 results:\n"
+   echo "$lint_results"
+   exit 1
+fi
+
+# NO ERRORS
+exit 0

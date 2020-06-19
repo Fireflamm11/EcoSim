@@ -1,5 +1,6 @@
 # gegenüberliegende Ränder sollen verbunden sein
 # die Felder sind inhaltsleer, sind enthalten bloß einen place
+from structure.Place import Place
 
 
 class Grid:
@@ -9,10 +10,11 @@ class Grid:
         self.width = width
 
         self.places = []
-        for x in range(width):
-            self.places[x] = []
 
-        self.generate_places()
+        for x in range(self.width):
+            self.places.append([])
 
-    def generate_places(self):
-        pass
+    def step(self):
+        for col in self.places:
+            for plc in col:
+                plc.step()
