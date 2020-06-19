@@ -23,17 +23,18 @@ class VillageAgent(Agent):
 
     def eat(self):
         for pop in self.village.pops:
-            for i in range(pop.foodneed):
-                try:
-                    pop.inventory["food"].pop()
-                except IndexError:
-                    if len(pop.inventory["food"]) == 0:
-                        self.kill_pop(pop)
+            if len(pop.inventory['food']) >= pop.food_need:
+                pop.inventory["food"] = pop.inventory["food"][:-pop.food_need]
+            else:
+                self.kill_pop(pop)
 
     def kill_pop(self, pop):
-        self.village.pops.remove(pop)
+        self.village.pops = self.village.pops[:-1]
         self.village.place.grid.world.dead_pops.append(pop)
         try:
             self.village.place.changed_values['dead'] += 1
         except KeyError:
             self.village.place.changed_values['dead'] = 1
+
+    def grow_pop(self):
+        pass
