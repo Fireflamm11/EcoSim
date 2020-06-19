@@ -19,14 +19,14 @@ def print_test():
 
 def test_world():
     clear_window()
-    world = World(5, 5, 'test_food')
+    world = World(5, 5, 'test_agriculture')
     board = Board(world, window)
 
     def step():
         print('Date: ', world.date)
         world.step()
         board.step()
-        print(len(world.dead_pops))
+        print('Dead People: ', len(world.dead_pops))
         window.after(200, step)
 
     step()

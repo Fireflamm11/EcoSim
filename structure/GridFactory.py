@@ -17,6 +17,7 @@ class GridFactory:
             for x in range(width):
                 for y in range(height):
                     grid.places[x].append(Place(grid, x, y))
+
         elif world_type == 'test_food':
             for x in range(width):
                 for y in range(height):
@@ -28,7 +29,7 @@ class GridFactory:
             # World config data
             num_settlements_per_tile = 1
             num_pops_per_settlement = 10
-            foodneed = 2
+            food_need = 2
             # world generation
             for x in range(width):
                 for y in range(height):
@@ -36,8 +37,8 @@ class GridFactory:
                     grid.places[x].append(plc)
                     for i in range(num_settlements_per_tile):
                         vlg = Village(plc)
-                        for x in range(num_pops_per_settlement):
-                            PopFactory.generate_pops(vlg, "farmer", foodneed)
+                        for j in range(num_pops_per_settlement):
+                            PopFactory.generate_pops(vlg, "farmer", food_need)
                         vlg_ag = VillageAgent(vlg)
                         vlg.agents.append(vlg_ag)
                         plc.settlements.append(vlg)

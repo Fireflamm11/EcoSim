@@ -12,3 +12,7 @@ class PlaceFrame(Frame):
         for key, value in changed_values.items():
             if (key == 'starving') & value:
                 self.configure(background='black')
+            if key == 'dead':
+                label = self.winfo_children()[0]
+                dead = int(label.cget('text')) + value
+                label.configure(text=dead)
