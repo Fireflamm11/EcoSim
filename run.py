@@ -21,9 +21,15 @@ def test_world():
     clear_window()
     world = World(5, 5, 'test_food')
     board = Board(world, window)
-    for x in range(50):
+
+    def step():
+        print(world.date)
         world.step()
         board.step()
+        window.after(200, step)
+
+    step()
+
 
 
 if __name__ == '__main__':

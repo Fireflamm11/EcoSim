@@ -1,6 +1,9 @@
 class Place:
 
     def __init__(self, grid, x, y):
+        self.observers = []
+        self.changed_values = {}
+
         self.grid = grid
         self.x = x
         self.y = y
@@ -15,6 +18,15 @@ class Place:
             nmd.step()
         for stl in self.settlement:
             stl.step()
+        self.notify_observer()
+        self.changed_values.clear()
+
+    def add_observer(self, observer):
+        self.observers.append(observer)
+
+    def notify_observer(self):
+        for obs in self.observers:
+            obs.notify(self.changed_values)
 
     def get_neighbor(self, direction):
         # We have to differ between the rows on how to determine northern and
