@@ -1,6 +1,3 @@
-from implementation.settlements.EmptySettlement import EmptySettlement
-
-
 class Place:
 
     def __init__(self, grid, x, y):
@@ -10,13 +7,14 @@ class Place:
 
         self.resources = {}
 
-        self.settlement = EmptySettlement()
+        self.settlement = []
         self.nomads = []
 
     def step(self):
         for nmd in self.nomads:
             nmd.step()
-        self.settlement.step()
+        for stl in self.settlement:
+            stl.step()
 
     def get_neighbor(self, direction):
         # We have to differ between the rows on how to determine northern and
