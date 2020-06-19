@@ -7,10 +7,11 @@ def print_test():
 
 
 def test_world():
-    world = World(50, 50, 'test_food')
+    world = World(50, 50, 'test_agriculture')
     for x in range(50):
         world.step()
+    print(len(world.dead_pops))
 
 
 if __name__ == '__main__':
-    print_test()
+    test_world()

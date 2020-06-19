@@ -8,6 +8,8 @@ class World:
         self.type = world_type
         self.grid = GridFactory.generate_places(self, self.type, height, width)
 
+        self.dead_pops = []
+
     def step(self):
         self.time += 1
         self.grid.step()

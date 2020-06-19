@@ -7,13 +7,13 @@ class Place:
 
         self.resources = {}
 
-        self.settlement = []
+        self.settlements = []
         self.nomads = []
 
     def step(self):
         for nmd in self.nomads:
             nmd.step()
-        for stl in self.settlement:
+        for stl in self.settlements:
             stl.step()
 
     def get_neighbor(self, direction):

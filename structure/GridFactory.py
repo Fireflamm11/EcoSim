@@ -1,7 +1,11 @@
 from implementation.places.FiniteFood import FiniteFood
 from implementation.pops.TestPop import TestPop
+from implementation.places.Tile import Tile
+from implementation.settlements.Village import Village
+from implementation.agents.VillageAgent import VillageAgent
 from structure.Grid import Grid
 from structure.Place import Place
+from structure.PopFactory import PopFactory
 
 
 class GridFactory:
@@ -19,6 +23,24 @@ class GridFactory:
                     plc = FiniteFood(grid, x, y)
                     grid.places[x].append(plc)
                     plc.nomads.append(TestPop(plc))
+
+        elif world_type == 'test_agriculture':
+            # World config data
+            num_settlements_per_tile = 1
+            num_pops_per_settlement = 10
+            foodneed = 2
+            # world generation
+            for x in range(width):
+                for y in range(height):
+                    plc = Tile(grid, x, y)
+                    grid.places[x].append(plc)
+                    for i in range(num_settlements_per_tile):
+                        vlg = Village(plc)
+                        for x in range(num_pops_per_settlement):
+                            PopFactory.generate_pops(vlg, "farmer", foodneed)
+                        vlg_ag = VillageAgent(vlg)
+                        vlg.agents.append(vlg_ag)
+                        plc.settlements.append(vlg)
 
         else:
             raise ValueError('no valid world type')
