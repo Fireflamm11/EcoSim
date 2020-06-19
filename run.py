@@ -19,7 +19,7 @@ def print_test():
 
 def test_world():
     clear_window()
-    world = World(25, 25, 'test_agriculture')
+    world = World(5, 5, 'test_agriculture')
     board = Board(world, window)
 
     def step():
