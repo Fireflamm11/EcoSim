@@ -1,6 +1,5 @@
 # gegenüberliegende Ränder sollen verbunden sein
 # die Felder sind inhaltsleer, sind enthalten bloß einen place
-from structure.Place import Place
 
 
 class Grid:

@@ -1,5 +1,10 @@
 from tkinter import Frame
 
+"""
+Refer:
+https://stackoverflow.com/questions/26583602/displaying-data-in-a-hexagonal-grid-using-python
+"""
+
 
 class PlaceFrame(Frame):
 

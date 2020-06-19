@@ -18,7 +18,8 @@ class Place:
             nmd.step()
         for stl in self.settlement:
             stl.step()
-        self.notify_observer()
+        if self.changed_values:
+            self.notify_observer()
         self.changed_values.clear()
 
     def add_observer(self, observer):

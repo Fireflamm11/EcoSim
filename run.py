@@ -23,13 +23,12 @@ def test_world():
     board = Board(world, window)
 
     def step():
-        print(world.date)
+        print('Date: ', world.date)
         world.step()
         board.step()
         window.after(200, step)
 
     step()
-
 
 
 if __name__ == '__main__':
