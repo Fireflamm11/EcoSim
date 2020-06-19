@@ -1,5 +1,8 @@
+import numpy as np
+
 from implementation.goods.Food import Food
 from structure.Agent import Agent
+from structure.Pop import Pop
 
 
 class VillageAgent(Agent):
@@ -23,10 +26,21 @@ class VillageAgent(Agent):
 
     def eat(self):
         for pop in self.village.pops:
-            if len(pop.inventory['food']) >= pop.food_need:
-                pop.inventory["food"] = pop.inventory["food"][:-pop.food_need]
-            else:
-                self.kill_pop(pop)
+            try:
+                if len(pop.inventory['food']) >= pop.food_need:
+                    pop.inventory["food"] = pop.inventory["food"][
+                                            :-pop.food_need]
+                    self.grow_pop()
+                else:
+                    self.kill_pop(pop)
+            except KeyError:
+                pop.inventory['food'] = []
+                if len(pop.inventory['food']) >= pop.food_need:
+                    pop.inventory["food"] = pop.inventory["food"][
+                                            :-pop.food_need]
+                    self.grow_pop()
+                else:
+                    self.kill_pop(pop)
 
     def kill_pop(self, pop):
         self.village.pops = self.village.pops[:-1]
@@ -37,4 +51,5 @@ class VillageAgent(Agent):
             self.village.place.changed_values['dead'] = 1
 
     def grow_pop(self):
-        pass
+        if np.random.random() * 100 <= 3:
+            self.village.pops.append(Pop(self.village))
