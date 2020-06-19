@@ -8,9 +8,9 @@ def print_test():
 
 def test_world():
     world = World(50, 50, 'test_food')
-    for x in range(500):
+    for x in range(50):
         world.step()
 
 
 if __name__ == '__main__':
-    test_world()
+    print_test()

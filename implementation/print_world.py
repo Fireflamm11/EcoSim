@@ -21,4 +21,4 @@ def print_world():
 
     for direction in directions:
         neighbor = place.get_neighbor(direction)
-        print(neighbor.x, neighbor.y)
+        print(direction + ': ', neighbor.x, neighbor.y)

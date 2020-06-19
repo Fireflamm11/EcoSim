@@ -1,5 +1,4 @@
 from structure.GridFactory import GridFactory
-from structure.Grid import Grid
 
 
 class World:
