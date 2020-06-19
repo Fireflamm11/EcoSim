@@ -26,14 +26,14 @@ def test_world():
         print('Date: ', world.date)
         world.step()
         board.step()
+        print(len(world.dead_pops))
         window.after(200, step)
 
     step()
 
 
 if __name__ == '__main__':
-    button = tk.Button(window, text='print', width=25, command=print_test)
-    button.grid()
-    button = tk.Button(window, text='food', width=25, command=test_world)
-    button.grid()
-    window.mainloop()
+    test_world()
+
+window.mainloop()
+

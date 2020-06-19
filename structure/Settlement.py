@@ -1,10 +1,12 @@
 class Settlement:
 
-    def __init__(self):
+    def __init__(self, place):
+        self.place = place
         self.pops = []
         self.agents = []
 
         self.buildings = []
 
     def step(self):
-        pass
+        for agent in self.agents:
+            agent.step()
