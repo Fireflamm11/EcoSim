@@ -5,6 +5,9 @@ class Agent:
         self.production = []
         self.property = []
 
+    def step(self):
+        pass
+
     def make_decision(self):
         pass
 

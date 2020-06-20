@@ -47,8 +47,7 @@ class Place:
             elif direction == 'w':
                 return self.grid.places[self.x - 1][self.y]
             else:
-                raise ValueError(
-                    direction +
+                raise ValueError(direction +
                     ' Invalid direction for getting neighbor of place')
         except IndexError:
             if direction == 'ne':

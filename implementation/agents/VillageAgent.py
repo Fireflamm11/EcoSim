@@ -25,8 +25,7 @@ class VillageAgent(Agent):
         dying_pops = []
         for pop in self.village.pops:
             if len(pop.inventory['food']) >= pop.food_need:
-                pop.inventory["food"] = pop.inventory["food"][
-                                        :-pop.food_need]
+                pop.inventory["food"] = pop.inventory["food"][:-pop.food_need]
                 new_pops += 1
             else:
                 dying_pops.append(pop)
@@ -53,7 +52,7 @@ class VillageAgent(Agent):
 
     def grow_pop(self, new_pops):
         for _ in range(new_pops):
-            if np.random.random() * 100 <= 3:
+            if np.random.random() * 100 <= 33:
                 PopFactory.generate_pops(self.village, food_need=2)
         if self.village.place.changed_values.get('new_pops') is not None:
             self.village.place.changed_values['new_pops'] += len(

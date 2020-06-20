@@ -5,7 +5,7 @@ class Settlement:
         self.pops = []
         self.agents = []
 
-        self.buildings = []
+        self.buildings = {}
 
     def step(self):
         for agent in self.agents:

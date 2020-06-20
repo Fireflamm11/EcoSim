@@ -1,7 +1,4 @@
-from threading import Thread
-
 from structure.GridFactory import GridFactory
-import time
 
 
 class World:

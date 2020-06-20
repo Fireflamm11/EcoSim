@@ -22,14 +22,14 @@ def print_test():
 
 def test_world():
     clear_window()
-    world = World(20, 20, 'test_agriculture')
+    world = World(10, 10, 'test_agriculture')
     board = Board(world, root)
 
     def step():
-        print('Date: ', world.date)
+        # print('Date: ', world.date)
         world.step()
         board.step()
-        print('Dead People: ', len(world.dead_pops))
+        # print('Dead People: ', len(world.dead_pops))
         root.after(200, step)
 
     step()
@@ -37,6 +37,6 @@ def test_world():
 
 if __name__ == '__main__':
     test_world()
+    # print_test()
 
 root.mainloop()
-
