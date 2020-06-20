@@ -1,8 +1,8 @@
-from implementation.places.FiniteFood import FiniteFood
-from implementation.pops.TestPop import TestPop
-from implementation.places.Tile import Tile
-from implementation.settlements.Village import Village
 from implementation.agents.VillageAgent import VillageAgent
+from implementation.places.FiniteFood import FiniteFood
+from implementation.places.Tile import Tile
+from implementation.pops.TestPop import TestPop
+from implementation.settlements.Village import Village
 from structure.Grid import Grid
 from structure.Place import Place
 from structure.PopFactory import PopFactory
@@ -38,7 +38,7 @@ class GridFactory:
                     for i in range(num_settlements_per_tile):
                         vlg = Village(plc)
                         for j in range(num_pops_per_settlement):
-                            PopFactory.generate_pops(vlg, "farmer", food_need)
+                            PopFactory.generate_pops(vlg, food_need, "farmer")
                         vlg_ag = VillageAgent(vlg)
                         vlg.agents.append(vlg_ag)
                         plc.settlements.append(vlg)

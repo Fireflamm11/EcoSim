@@ -2,7 +2,7 @@ import numpy as np
 
 from implementation.goods.Food import Food
 from structure.Agent import Agent
-from structure.Pop import Pop
+from structure.PopFactory import PopFactory
 
 
 class VillageAgent(Agent):
@@ -18,31 +18,39 @@ class VillageAgent(Agent):
         for pop in self.village.pops:
             for i in range(self.village.place.soil_quality):
                 food = Food()
-                try:
-                    pop.inventory["food"].append(food)
-                except KeyError:
-                    pop.inventory["food"] = []
-                    pop.inventory["food"].append(food)
+                pop.inventory["food"].append(food)
 
     def eat(self):
         new_pops = 0
+        dying_pops = []
         for pop in self.village.pops:
             if len(pop.inventory['food']) >= pop.food_need:
                 pop.inventory["food"] = pop.inventory["food"][
                                         :-pop.food_need]
                 new_pops += 1
             else:
-                self.kill_pop(pop)
+                dying_pops.append(pop)
+        if dying_pops:
+            self.kill_pops(dying_pops)
+        self.grow_pop(new_pops)
 
     def kill_pop(self, pop):
         self.village.pops.remove(pop)
         self.village.place.grid.world.dead_pops.append(pop)
-        try:
+        if self.village.place.changed_values.get('dead') is not None:
             self.village.place.changed_values['dead'] += 1
-        except KeyError:
+        else:
             self.village.place.changed_values['dead'] = 1
 
+    def kill_pops(self, pops):
+        self.village.pops = [x for x in self.village.pops if x not in pops]
+        self.village.place.grid.world.dead_pops.extend(pops)
+        if self.village.place.changed_values.get('dead') is not None:
+            self.village.place.changed_values['dead'] += len(pops)
+        else:
+            self.village.place.changed_values['dead'] = len(pops)
+
     def grow_pop(self, new_pops):
-        for _ in new_pops:
+        for _ in range(new_pops):
             if np.random.random() * 100 <= 3:
-                self.village.pops.append(Pop(self.village))
+                PopFactory.generate_pops(self.village, food_need=2)
