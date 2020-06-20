@@ -5,6 +5,9 @@ from structure.World import World
 from visualisation.Board import Board
 
 root = tk.Tk()
+# root.geometry("{0}x{0}+0+0".format(
+#             root.winfo_screenwidth(), root.winfo_screenheight()-50))
+root.state('zoomed')
 
 
 def clear_window():
