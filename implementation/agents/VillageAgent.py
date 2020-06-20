@@ -25,31 +25,24 @@ class VillageAgent(Agent):
                     pop.inventory["food"].append(food)
 
     def eat(self):
+        new_pops = 0
         for pop in self.village.pops:
-            try:
-                if len(pop.inventory['food']) >= pop.food_need:
-                    pop.inventory["food"] = pop.inventory["food"][
-                                            :-pop.food_need]
-                    self.grow_pop()
-                else:
-                    self.kill_pop(pop)
-            except KeyError:
-                pop.inventory['food'] = []
-                if len(pop.inventory['food']) >= pop.food_need:
-                    pop.inventory["food"] = pop.inventory["food"][
-                                            :-pop.food_need]
-                    self.grow_pop()
-                else:
-                    self.kill_pop(pop)
+            if len(pop.inventory['food']) >= pop.food_need:
+                pop.inventory["food"] = pop.inventory["food"][
+                                        :-pop.food_need]
+                new_pops += 1
+            else:
+                self.kill_pop(pop)
 
     def kill_pop(self, pop):
-        self.village.pops = self.village.pops[:-1]
+        self.village.pops.remove(pop)
         self.village.place.grid.world.dead_pops.append(pop)
         try:
             self.village.place.changed_values['dead'] += 1
         except KeyError:
             self.village.place.changed_values['dead'] = 1
 
-    def grow_pop(self):
-        if np.random.random() * 100 <= 3:
-            self.village.pops.append(Pop(self.village))
+    def grow_pop(self, new_pops):
+        for _ in new_pops:
+            if np.random.random() * 100 <= 3:
+                self.village.pops.append(Pop(self.village))

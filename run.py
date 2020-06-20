@@ -4,11 +4,11 @@ from implementation.print_world import print_world
 from structure.World import World
 from visualisation.Board import Board
 
-window = tk.Tk()
+root = tk.Tk()
 
 
 def clear_window():
-    for child in window.winfo_children():
+    for child in root.winfo_children():
         child.destroy()
 
 
@@ -19,15 +19,15 @@ def print_test():
 
 def test_world():
     clear_window()
-    world = World(5, 5, 'test_agriculture')
-    board = Board(world, window)
+    world = World(20, 20, 'test_agriculture')
+    board = Board(world, root)
 
     def step():
         print('Date: ', world.date)
         world.step()
         board.step()
         print('Dead People: ', len(world.dead_pops))
-        window.after(200, step)
+        root.after(200, step)
 
     step()
 
@@ -35,5 +35,5 @@ def test_world():
 if __name__ == '__main__':
     test_world()
 
-window.mainloop()
+root.mainloop()
 

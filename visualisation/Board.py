@@ -12,9 +12,9 @@ for hexagon-grid
 
 class Board:
 
-    def __init__(self, world, window):
+    def __init__(self, world, parent):
         self.world = world
-        self.window = window
+        self.parent = parent
 
         for x in range(world.grid.width):
             for y in range(world.grid.height):
@@ -22,26 +22,26 @@ class Board:
                 if y % 2 == 0:
                     help_x += 1
 
-                cell = PlaceFrame(master=self.window, relief=tk.RAISED,
-                                  borderwidth=5)
-                self.world.grid.places[x][y].add_observer(cell)
-                tk.Label(cell, text=0).pack(fill=tk.BOTH)
+                cell = PlaceFrame(master=self.parent, relief=tk.RIDGE,
+                                  borderwidth=2)
+                tk.Label(cell, text=0, width=2).pack(fill=tk.BOTH)
                 cell.grid(row=y * 2, column=help_x, padx=5, pady=5,
                           sticky="nesw", rowspan=2, columnspan=2)
+                self.world.grid.places[x][y].add_observer(cell)
 
         for y in range(world.grid.height):
             if y % 2 == 1:
-                cell = tk.Frame(master=self.window)
+                cell = tk.Frame(master=self.parent)
                 cell.grid(row=y * 2, column=world.grid.width * 2,
                           sticky="nesw")
 
-        for col_num in range(window.grid_size()[1] + 1):
-            window.columnconfigure(col_num, weight=1, minsize=5)
-        for row_num in range(window.grid_size()[0]):
-            window.rowconfigure(row_num, weight=1, minsize=5)
+        for col_num in range(parent.grid_size()[1] + 1):
+            parent.columnconfigure(col_num, weight=1, minsize=10)
+        for row_num in range(parent.grid_size()[0]):
+            parent.rowconfigure(row_num, weight=1, minsize=10)
 
     def add_offset_row(self, x, y):
-        cell = tk.Frame(master=self.window, bg='blue')
+        cell = tk.Frame(master=self.parent, bg='blue')
         cell.grid(row=y * 2, column=2 * x, sticky="nesw", rowspan=2,
                   columnspan=2, padx=5, pady=5)
 
