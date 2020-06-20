@@ -24,7 +24,7 @@ class Board:
 
                 cell = PlaceFrame(master=self.parent, relief=tk.RIDGE,
                                   borderwidth=2)
-                tk.Label(cell, text=0, width=2).pack(fill=tk.BOTH)
+                cell.generate_children()
                 cell.grid(row=y * 2, column=help_x, padx=5, pady=5,
                           sticky="nesw", rowspan=2, columnspan=2)
                 self.world.grid.places[x][y].add_observer(cell)

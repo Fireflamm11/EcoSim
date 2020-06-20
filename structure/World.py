@@ -4,7 +4,7 @@ from structure.GridFactory import GridFactory
 import time
 
 
-class World():
+class World:
 
     def __init__(self, height, width, world_type='empty', start_date=0):
         self.date = start_date
