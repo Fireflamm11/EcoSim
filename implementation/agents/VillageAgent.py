@@ -13,6 +13,7 @@ class VillageAgent(Agent):
     def step(self):
         self.farm()
         self.eat()
+        self.ageing()
 
     def farm(self):
         for pop in self.village.pops:
@@ -51,6 +52,17 @@ class VillageAgent(Agent):
             self.village.place.changed_values['dead'] = len(pops)
         self.village.place.changed_values['starving'] = True
 
+    def ageing(self):
+        for pop in self.village.pops:
+            pop.age += 1
+            if pop.age >= 30:
+                pop.health -= 10
+            if pop.health <= 0:
+                self.kill_pop(pop)
+            elif np.random.random() * (pop.age - 18) >= 10:
+                self.kill_pop(pop)
+            print(pop.health)
+
     def grow_pop(self, new_pops):
         for _ in range(new_pops):
             if np.random.random() * 100 <= 3:
@@ -61,3 +73,4 @@ class VillageAgent(Agent):
         else:
             self.village.place.changed_values['new_pops'] = len(
                 self.village.pops)
+
