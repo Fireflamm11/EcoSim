@@ -53,7 +53,8 @@ class VillageAgent(Agent):
     def grow_pop(self, new_pops):
         for _ in range(new_pops):
             if np.random.random() * 100 <= 33:
-                PopFactory.generate_pops(self.village, food_need=2)
+                PopFactory.generate_pops(self.village, job='farmer',
+                                         food_need=2)
         if self.village.place.changed_values.get('new_pops') is not None:
             self.village.place.changed_values['new_pops'] += len(
                 self.village.pops)
