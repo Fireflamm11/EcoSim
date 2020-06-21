@@ -36,10 +36,10 @@ class GridFactory:
                     plc = Tile(grid, x, y)
                     grid.places[x].append(plc)
                     for i in range(num_settlements_per_tile):
-                        vlg = Village(plc)
+                        vlg = Village(plc, "communal")
                         for j in range(num_pops_per_settlement):
                             PopFactory.generate_pops(vlg, food_need, "farmer")
-                        vlg_ag = VillageAgent(vlg)
+                        vlg_ag = VillageAgent(vlg, plc)
                         vlg.agents.append(vlg_ag)
                         plc.settlements.append(vlg)
 
