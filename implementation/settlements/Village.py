@@ -5,7 +5,7 @@ from structure.Settlement import Settlement
 
 
 class Village(Settlement):
-    def __init__(self, place, start_pops, strata='communal'):
+    def __init__(self, place, start_pops, strata='Communal'):
         super().__init__(place)
         self.strata = strata
         self.arable_land = np.random.random() * 100 + 10
