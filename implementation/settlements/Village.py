@@ -8,4 +8,4 @@ class Village(Settlement):
     def __init__(self, place, strata):
         super().__init__(place)
         self.strata = strata
-        self.arable_land = np.random.random() * 100 + 10
+        self.arable_land = np.random.normal(200, 10) + 10

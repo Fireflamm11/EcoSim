@@ -19,7 +19,7 @@ def print_test():
 
 def test_world():
     clear_window()
-    world = World(3, 3, 'test_agriculture')
+    world = World(5, 5, 'test_agriculture')
     board = Board(world, root)
 
     def step():
@@ -27,7 +27,7 @@ def test_world():
         world.step()
         board.step()
         print('Dead People: ', len(world.dead_pops))
-        root.after(100, step)
+        root.after(10, step)
 
     step()
 
