@@ -1,13 +1,13 @@
 import numpy as np
 
 from structure.PopFactory import PopFactory
-from structure.agents.AgentStrata import AgentStrata
+from structure.agents.StrataAgent import StrataAgent
 
 
-class Communal(AgentStrata):
+class CommunalAgent(StrataAgent):
 
     @classmethod
-    def production(cls, agent, **kwargs):
+    def work(cls, agent, **kwargs):
         for _ in range(agent.village.place.soil_quality):
             # TODO why iterate over soil_quality
             if len(agent.village.pops) <= agent.village.arable_land:
@@ -16,7 +16,7 @@ class Communal(AgentStrata):
                 agent.village.food += agent.village.arable_land
 
     @classmethod
-    def supply(cls, agent, **kwargs):
+    def consume(cls, agent, **kwargs):
         agent.village.place.changed_values['starving'] = True
         new_pops = 0
         agent.village.food -= 2 * len(agent.village.pops)
