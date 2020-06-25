@@ -6,5 +6,6 @@ class Pop:
         self.age = 18
         self.job = job
         self.food_need = food_need
+        self.health = 100
 
         self.inventory['food'] = []

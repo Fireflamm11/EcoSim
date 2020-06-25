@@ -34,7 +34,7 @@ class GridFactory:
                     plc = Tile(grid, x, y)
                     grid.places[x].append(plc)
                     for i in range(num_settlements_per_tile):
-                        vlg = Village(plc, num_pops_per_settlement)
+                        vlg = Village(plc, num_pops_per_settlement, )
                         vlg_ag = VillageAgent(vlg)
                         vlg.agents.append(vlg_ag)
                         plc.settlements.append(vlg)

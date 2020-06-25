@@ -5,6 +5,8 @@ class Settlement:
         self.pops = []
         self.agents = []
 
+        self.food = 0
+
         self.buildings = {}
 
     def step(self):
