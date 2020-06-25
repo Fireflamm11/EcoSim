@@ -12,19 +12,21 @@ class VillageAgent(Agent, Place):
         self.village = village
         self.place = plc
 
+        self.starving = 0
+
     def step(self):
         self.farm()
         self.eat()
         self.ageing()
 
+
     def farm(self):
         if self.village.strata == "communal":
-            for settlement in self.village.place.settlements:
-                for _ in range(self.village.place.soil_quality):
-                    if len(self.village.pops) <= self.village.arable_land:
-                        settlement.food += len(self.village.pops)
-                    else:
-                        settlement.food += self.village.arable_land
+            for _ in range(self.village.place.soil_quality):
+                if len(self.village.pops) <= self.village.arable_land:
+                    self.village.food += len(self.village.pops)
+                else:
+                    self.village.food += self.village.arable_land
 
         else:
             for pop in self.village.pops:
@@ -35,17 +37,23 @@ class VillageAgent(Agent, Place):
     def eat(self):
         if self.village.strata == "communal":
             new_pops = 0
-            for settlement in self.village.place.settlements:
-                settlement.food -= 2 * len(self.village.pops)
-                if settlement.food < 0:
-                    for pop in self.village.pops:
-                        pop.health -= 50
-                        new_pops += 1
-                else:
-                    for pop in self.village.pops:
-                        pop.health += 10
-                        new_pops += 1
-                settlement.food = 0
+            starving = 0
+            self.village.food -= 2 * len(self.village.pops)
+            starving = int(-self.village.food)
+            if starving > len(self.village.pops):
+                starving = len(self.village.pops)
+            if self.village.food < 0:
+                for pop in self.village.pops:
+                    pop.health -= 50
+                    new_pops += 1
+            else:
+                for pop in self.village.pops:
+                    pop.health += 10
+                    new_pops += 1
+                    self.village.food = 0
+            self.migrate_pop(starving)
+            starving = 0
+            self.village.food = 0
             self.grow_pop(new_pops)
 
         else:
@@ -91,7 +99,7 @@ class VillageAgent(Agent, Place):
 
     def grow_pop(self, new_pops):
         for _ in range(new_pops):
-            if np.random.random() * 100 <= 30:
+            if np.random.random() * 100 <= 3:
                 PopFactory.generate_pops(self.village, food_need=2)
         if self.village.place.changed_values.get('new_pops') is not None:
             self.village.place.changed_values['new_pops'] += len(
@@ -99,3 +107,40 @@ class VillageAgent(Agent, Place):
         else:
             self.village.place.changed_values['new_pops'] = len(
                 self.village.pops)
+
+    def migrate_pop(self, starving):
+        moving = []
+        for pop in range(starving):
+            moving.append(self.village.pops[pop])
+        self.village.pops = [x for x in self.village.pops if x not in moving]
+        for direction in self.village.place.directions:
+            neighbor = self.village.place.neighbors[direction]
+            print(neighbor.settelements)
+            neighbor.settlements
+
+
+
+"""        for neighbor in self.village.place.neighbors:
+            print(neighbor.settlements)"""
+
+
+
+
+
+
+""""""
+"""        self.village.pops.remove(self.village.pops[x]
+"""        """ for neighbor in self.village.place.neighbors:
+                print(self.village.place.neighbors)"""
+
+
+
+
+
+
+
+
+
+
+
+

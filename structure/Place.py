@@ -1,19 +1,25 @@
+import numpy as np
 class Place:
 
     def __init__(self, grid, x, y):
         self.observers = []
         self.changed_values = {}
+        self.neighbors = {}
+
+        self.directions = ["nw", "ne", "e", "se", "sw", "w"]
 
         self.grid = grid
         self.x = x
         self.y = y
 
         self.resources = {}
+        """self.arable_land = np.random.random() * 100 + 10"""
 
         self.settlements = []
         self.nomads = []
 
     def step(self):
+        self.get_neighbors()
         for nmd in self.nomads:
             nmd.step()
         for stl in self.settlements:
@@ -65,3 +71,29 @@ class Place:
                 return self.grid.places[x][y]
             elif direction == 'sw':
                 return self.grid.places[self.x - 1 + (self.y % 2)][0]
+
+    def get_neighbors(self):
+        for direction in self.directions:
+            self.neighbors[direction] = self.get_neighbor(direction)
+
+
+
+
+
+
+
+
+
+            """if directions == 'nw':
+                self.neighbors["nw"] = self.grid.places[self.x - 1 + (self.y % 2)][self.y - 1]
+            elif directions == 'ne':
+                self.neighbors["ne"] = self.grid.places[self.x + (self.y % 2)][self.y - 1]
+            elif directions == 'e':
+                self.neighbors["e"] = self.grid.places[self.x + 1][self.y]
+            elif directions == 'se':
+                self.neighbors["se"] = self.grid.places[self.x + (self.y % 2)][self.y + 1]
+            elif directions == 'sw':
+                self.neighbors["sw"] = self.grid.places[self.x - 1 + (self.y % 2)][self.y + 1]
+            elif directions == 'w':
+                self.neighbors["w"] = self.grid.places[self.x - 1][self.y]"""
+
