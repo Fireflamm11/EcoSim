@@ -1,4 +1,4 @@
-from structure.Good import Good
+from structure.goods.Good import Good
 
 
 class Food(Good):

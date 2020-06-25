@@ -2,7 +2,7 @@ from random import randint
 
 import numpy as np
 
-from structure.Place import Place
+from structure.places.Place import Place
 
 
 class Tile(Place):

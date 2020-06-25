@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from structure.Agent import Agent
+from structure.agents.Agent import Agent
 
 
 class AgentStrata(ABC, Agent):

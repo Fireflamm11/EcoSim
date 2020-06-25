@@ -1,7 +1,7 @@
 import numpy as np
 
 from structure.PopFactory import PopFactory
-from structure.Settlement import Settlement
+from structure.settlements.Settlement import Settlement
 
 
 class Village(Settlement):

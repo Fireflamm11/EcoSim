@@ -1,4 +1,4 @@
-from structure.Pop import Pop
+from structure.pops.Pop import Pop
 
 
 class FarmerPop(Pop):

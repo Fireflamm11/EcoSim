@@ -1,8 +1,8 @@
 import importlib
 
-from structure.Agent import Agent
-from structure.AgentStrata import AgentStrata
-from structure.Place import Place
+from structure.agents.Agent import Agent
+from structure.agents.AgentStrata import AgentStrata
+from structure.places.Place import Place
 
 
 class VillageAgent(Agent, Place):

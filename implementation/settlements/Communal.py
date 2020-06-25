@@ -1,6 +1,6 @@
 import numpy as np
 
-from structure.AgentStrata import AgentStrata
+from structure.agents.AgentStrata import AgentStrata
 from structure.PopFactory import PopFactory
 
 

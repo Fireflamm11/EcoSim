@@ -1,4 +1,4 @@
-from structure.Settlement import Settlement
+from structure.settlements.Settlement import Settlement
 
 
 class EmptySettlement(Settlement):

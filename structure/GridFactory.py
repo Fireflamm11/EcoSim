@@ -4,7 +4,7 @@ from implementation.places.Tile import Tile
 from implementation.pops.TestPop import TestPop
 from implementation.settlements.Village import Village
 from structure.Grid import Grid
-from structure.Place import Place
+from structure.places.Place import Place
 
 
 class GridFactory:
