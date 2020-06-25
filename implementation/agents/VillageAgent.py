@@ -115,5 +115,7 @@ class VillageAgent(Agent, Place):
         self.village.pops = [x for x in self.village.pops if x not in moving]
         for direction in self.village.place.directions:
             neighbor = self.village.place.neighbors[direction]
-            print(neighbor.settelements)
-            neighbor.settlements
+
+            for settlement in neighbor.settlements:
+                if settlement.arable_land - len(settlement.pops) > 0:
+                    settlement.pops.extend(moving)
