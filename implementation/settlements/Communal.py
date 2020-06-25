@@ -1,7 +1,7 @@
 import numpy as np
 
-from structure.agents.AgentStrata import AgentStrata
 from structure.PopFactory import PopFactory
+from structure.agents.AgentStrata import AgentStrata
 
 
 class Communal(AgentStrata):
@@ -16,6 +16,7 @@ class Communal(AgentStrata):
 
     @classmethod
     def supply(cls, agent, **kwargs):
+        agent.village.place.changed_values['starving'] = True
         new_pops = 0
         agent.village.food -= 2 * len(agent.village.pops)
         starving = int(-agent.village.food)
@@ -25,6 +26,7 @@ class Communal(AgentStrata):
             for pop in agent.village.pops:
                 pop.health -= 50
                 new_pops += 1
+                agent.village.place.changed_values['starving'] = False
         else:
             for pop in agent.village.pops:
                 pop.health += 10
@@ -61,7 +63,6 @@ class Communal(AgentStrata):
             agent.village.place.changed_values['dead'] += len(pops)
         else:
             agent.village.place.changed_values['dead'] = len(pops)
-        agent.village.place.changed_values['starving'] = True
 
     @classmethod
     def grow_pop(cls, agent, new_pops):
@@ -69,11 +70,11 @@ class Communal(AgentStrata):
             if np.random.random() * 100 <= 33:
                 PopFactory.generate_pops(agent.village, job='farmer',
                                          food_need=2)
-        if agent.village.place.changed_values.get('new_pops') is not None:
-            agent.village.place.changed_values['new_pops'] += len(
+        if agent.village.place.changed_values.get('pops') is not None:
+            agent.village.place.changed_values['pops'] += len(
                 agent.village.pops)
         else:
-            agent.village.place.changed_values['new_pops'] = len(
+            agent.village.place.changed_values['pops'] = len(
                 agent.village.pops)
 
     @classmethod
@@ -88,3 +89,9 @@ class Communal(AgentStrata):
             for settlement in neighbor.settlements:
                 if settlement.arable_land - len(settlement.pops) > 0:
                     settlement.pops.extend(moving)
+                    if settlement.place.changed_values.get('migrants'):
+                        settlement.place.changed_values['migrants'] += len(
+                            moving)
+                    else:
+                        settlement.place.changed_values['migrants'] = len(
+                            moving)
