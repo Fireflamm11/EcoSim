@@ -1,4 +1,5 @@
 from structure.GridFactory import GridFactory
+from structure.GridManager import GridManager
 
 
 class World:
@@ -7,6 +8,7 @@ class World:
         self.date = start_date
         self.type = world_type
         self.grid = GridFactory.generate_places(self, self.type, height, width)
+        self.grid.grid_manager = GridManager(self.grid)
 
         self.dead_pops = []
 

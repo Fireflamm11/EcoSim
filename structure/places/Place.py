@@ -27,6 +27,9 @@ class Place:
             self.notify_observer()
         self.changed_values.clear()
 
+    def migration(self, pops):
+        self.settlements[0].pops.extend(pops)
+
     def add_observer(self, observer):
         self.observers.append(observer)
 
@@ -73,3 +76,4 @@ class Place:
     def get_neighbors(self):
         for direction in self.directions:
             self.neighbors[direction] = self.get_neighbor(direction)
+        return self.neighbors
