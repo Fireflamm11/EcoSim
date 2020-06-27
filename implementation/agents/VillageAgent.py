@@ -9,13 +9,12 @@ from structure.places.Place import Place
 
 class VillageAgent(Agent, Place):
 
-    def __init__(self, village, plc):
+    def __init__(self, village):
         super().__init__()
         self.path_settlements = 'implementation.agents.strata_agents.'
         self.village = village
-        self.place = plc  # TODO Why does this know the place
 
-        self.starving = []
+        self.starving = 0
 
         self._strata_agent: StrataAgent = self.update_strata()
 
@@ -24,6 +23,7 @@ class VillageAgent(Agent, Place):
         self._strata_agent.consume(self)
         self._strata_agent.pop_development(self)
         self._strata_agent.settlement_development(self)
+        self.starving = 0
 
     def strata_agent(self):
         return self._strata_agent
@@ -62,25 +62,24 @@ class VillageAgent(Agent, Place):
                 self.kill_pop(pop)
 
     def migrate_pops(self):
-        if len(self.starving) == 0:
+        if self.starving == 0:
+            print('none')
             return
 
+        print(len(self.village.pops), self.starving)
+        moving_idx = np.random.default_rng().choice(len(self.village.pops),
+                                                    size=self.starving,
+                                                    replace=False)
+        moving_pops = [self.village.pops[idx] for idx in moving_idx]
         counter = 0
-        indices = np.random.randint(low=0, high=len(self.starving), size=7)
-        migrating = np.split(np.array(self.starving), indices)
+        indices = np.sort(
+            np.random.default_rng().choice(len(moving_idx), size=8,
+                                           replace=False))
+        migrating = np.split(np.array(moving_pops), indices)
         self.village.pops = [x for x in self.village.pops if
-                             x not in self.starving]
+                             x not in moving_pops]
+
         for direction, neighbor in self.village.place.get_neighbors().items():
             self.village.place.grid.grid_manager.migrating[neighbor].extend(
                 migrating[counter])
             counter += 1
-            # neighbor = self.village.place.neighbors[direction]
-            # for settlement in neighbor.settlements:
-            #     if settlement.arable_land - len(settlement.pops) > 0:
-            #         settlement.pops.extend(self.starving)
-            #         if settlement.place.changed_values.get('migrants'):
-            #             settlement.place.changed_values['migrants'] += len(
-            #                 self.starving)
-            #         else:
-            #             settlement.place.changed_values['migrants'] = len(
-            #                 self.starving)

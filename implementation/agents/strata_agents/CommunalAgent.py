@@ -1,5 +1,3 @@
-from random import shuffle
-
 import numpy as np
 
 from structure.PopFactory import PopFactory
@@ -11,32 +9,29 @@ class CommunalAgent(StrataAgent):
     # Begin of the overwritten ABC-Methods
     @classmethod
     def work(cls, agent, **kwargs):
-        for _ in range(agent.village.place.soil_quality):
-            # TODO why iterate over soil_quality
-            if len(agent.village.pops) <= agent.village.arable_land:
-                agent.village.food += len(agent.village.pops)
-            else:
-                agent.village.food += agent.village.arable_land
+        agent.village.food += agent.village.place.soil_quality * len(
+            agent.village.pops)
 
     @classmethod
     def consume(cls, agent, **kwargs):
         agent.village.place.changed_values['starving'] = False
         new_pops = 0
-        agent.village.food += agent.village.place.soil_quality * len(
-            agent.village.pops)
-        # TODO why negative? And why class variable(its get overwritten)
-        pops = agent.village.pops.copy()
-        shuffle(pops)
-        for pop in pops:
-            if agent.village.food > 0:
-                pop.health += 10
-                new_pops += 1
-                agent.village.food -= pop.food_need
-            else:
-                pop.health -= 50
-                new_pops += 1
-                agent.starving.append(pop)
-                agent.village.place.changed_values['starving'] = True
+        agent.village.food -= 2 * len(agent.village.pops)
+        agent.starving = int(-agent.village.food)
+        if agent.starving > len(agent.village.pops):
+            agent.starving = len(agent.village.pops)
+
+        if agent.village.food < 0:
+            health_change = -50
+            agent.village.place.changed_values['starving'] = False
+        else:
+            health_change = 10
+
+        for pop in agent.village.pops:
+            pop.health += health_change
+            new_pops += 1
+
+        agent.village.food = 0
         cls.grow_pop(agent, new_pops)
 
     @classmethod
