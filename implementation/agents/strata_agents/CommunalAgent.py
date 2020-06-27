@@ -9,8 +9,12 @@ class CommunalAgent(StrataAgent):
     # Begin of the overwritten ABC-Methods
     @classmethod
     def work(cls, agent, **kwargs):
-        agent.village.food += agent.village.place.soil_quality * len(
-            agent.village.pops)
+        if len(agent.village.pops) <= agent.village.arable_land:
+            agent.village.food += agent.village.place.soil_quality * len(
+                agent.village.pops)
+        else:
+            agent.village.food += \
+                agent.village.place.soil_quality * agent.village.arable_land
 
     @classmethod
     def consume(cls, agent, **kwargs):

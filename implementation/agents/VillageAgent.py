@@ -66,13 +66,11 @@ class VillageAgent(Agent, Place):
         if self.starving == 0:
             return
 
-        print(len(self.village.pops), self.starving)
         moving_idx = np.random.default_rng().choice(len(self.village.pops),
                                                     size=self.starving,
                                                     replace=False)
         moving_pops = [self.village.pops[idx] for idx in moving_idx]
         counter = 0
-        print(len(moving_idx))
         helper = len(moving_idx)
         if helper < 8:
             indices = np.sort(
