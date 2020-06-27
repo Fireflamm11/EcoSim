@@ -19,3 +19,5 @@ class GridManager:
                 place.changed_values['migrants'] += len(pops)
             else:
                 place.changed_values['migrants'] = len(pops)
+
+            self.migrating[place] = []
