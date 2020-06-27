@@ -1,4 +1,5 @@
 import importlib
+from random import shuffle
 
 import numpy as np
 
@@ -63,7 +64,6 @@ class VillageAgent(Agent, Place):
 
     def migrate_pops(self):
         if self.starving == 0:
-            print('none')
             return
 
         print(len(self.village.pops), self.starving)
@@ -72,10 +72,19 @@ class VillageAgent(Agent, Place):
                                                     replace=False)
         moving_pops = [self.village.pops[idx] for idx in moving_idx]
         counter = 0
-        indices = np.sort(
-            np.random.default_rng().choice(len(moving_idx), size=8,
-                                           replace=False))
+        print(len(moving_idx))
+        helper = len(moving_idx)
+        if helper < 8:
+            indices = np.sort(
+                np.random.default_rng().choice(8, size=8,
+                                               replace=False))
+        else:
+            indices = np.sort(
+                np.random.default_rng().choice(helper, size=8,
+                                               replace=False))
+
         migrating = np.split(np.array(moving_pops), indices)
+        shuffle(migrating)
         self.village.pops = [x for x in self.village.pops if
                              x not in moving_pops]
 

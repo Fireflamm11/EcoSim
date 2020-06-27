@@ -17,7 +17,7 @@ class CommunalAgent(StrataAgent):
         agent.village.place.changed_values['starving'] = False
         new_pops = 0
         agent.village.food -= 2 * len(agent.village.pops)
-        agent.starving = int(-agent.village.food)
+        agent.starving = int(-agent.village.food / 2)
         if agent.starving > len(agent.village.pops):
             agent.starving = len(agent.village.pops)
 
