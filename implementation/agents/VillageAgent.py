@@ -12,7 +12,7 @@ class VillageAgent(Agent, Place):
 
     def __init__(self, village):
         super().__init__()
-        self.path_settlements = 'implementation.agents.strata_agents.'
+        self.path_strata_agents = 'implementation.agents.strata_agents.'
         self.village = village
 
         self.starving = 0
@@ -32,7 +32,7 @@ class VillageAgent(Agent, Place):
     def update_strata(self):
         strata = self.village.strata
         try:
-            path = self.path_settlements + strata + 'Agent'
+            path = self.path_strata_agents + strata + 'Agent'
             return getattr(importlib.import_module(path), strata + 'Agent')
         except NameError:
             raise NameError

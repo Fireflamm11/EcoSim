@@ -30,7 +30,7 @@ def test_world():
         world.step()
         board.step()
         # print('Dead People: ', len(world.dead_pops))
-        root.after(10, step)
+        root.after(50, step)
 
     step()
 
