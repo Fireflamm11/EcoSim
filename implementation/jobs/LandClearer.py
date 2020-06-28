@@ -13,3 +13,7 @@ class LandClearer(Job):
     @classmethod
     def on_migration(cls, pop, **kwargs):
         pass
+
+    @classmethod
+    def on_death(cls, pop, **kwargs):
+        pass

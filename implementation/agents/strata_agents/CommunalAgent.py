@@ -11,13 +11,18 @@ class CommunalAgent(StrataAgent):
     # Begin of the overwritten ABC-Methods
     @classmethod
     def job_redistribution(cls, agent, **kwargs):
+        if agent.village.free_land == 0:
+            return
+
         if len(agent.village.job_distribution[Unemployed]) <= \
                 agent.village.free_land:
-            new_farmer = agent.village.free_land
+            new_farmer = min(agent.village.free_land,
+                             len(agent.village.job_distribution[Unemployed]))
             agent.village.free_land -= new_farmer
-            idx = np.random.randint(
+
+            idx = np.random.default_rng().choice(
                 len(agent.village.job_distribution[Unemployed]),
-                size=new_farmer)
+                size=new_farmer, replace=False)
             new_farmer = [agent.village.job_distribution[Unemployed][i] for i
                           in idx]
             [pop.change_job(Farmer) for pop in new_farmer]
@@ -28,6 +33,9 @@ class CommunalAgent(StrataAgent):
 
     @classmethod
     def consume(cls, agent, **kwargs):
+        if len(agent.village.pops) == 0:
+            return
+
         agent.village.place.changed_values['starving'] = False
         new_pops = 0
         agent.village.food -= 2 * len(agent.village.pops)
@@ -49,8 +57,8 @@ class CommunalAgent(StrataAgent):
 
     @classmethod
     def pop_development(cls, agent, **kwargs):
-        agent.migrate_pops()
         agent.ageing()
+        agent.migrate_pops()
 
     @classmethod
     def settlement_development(cls, agent, **kwargs):
@@ -65,6 +73,7 @@ class CommunalAgent(StrataAgent):
             if np.random.random() * 100 <= 3:
                 PopFactory.generate_pops(agent.village, job='Unemployed',
                                          food_need=2)
+
         if agent.village.place.changed_values.get('pops') is not None:
             agent.village.place.changed_values['pops'] += len(
                 agent.village.pops)

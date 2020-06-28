@@ -41,15 +41,14 @@ class VillageAgent(Agent, Place):
             raise NameError
 
     def kill_pop(self, pop):
-        self.village.pops.remove(pop)
+        pop.on_death()
         if self.village.place.changed_values.get('dead') is not None:
             self.village.place.changed_values['dead'] += 1
         else:
             self.village.place.changed_values['dead'] = 1
 
     def kill_pops(self, pops):
-        self.village.pops = [x for x in self.village.pops if x not in pops]
-        self.village.place.grid.world.dead_pops.extend(pops)
+        [pop.on_death() for pop in pops]
         if self.village.place.changed_values.get('dead') is not None:
             self.village.place.changed_values['dead'] += len(pops)
         else:
@@ -85,8 +84,8 @@ class VillageAgent(Agent, Place):
 
         migrating = np.split(np.array(moving_pops), indices)
         shuffle(migrating)
-        self.village.pops = [x for x in self.village.pops if
-                             x not in moving_pops]
+        # self.village.pops = [x for x in self.village.pops if
+        #                      x not in moving_pops]
 
         for direction, neighbor in self.village.place.get_neighbors().items():
             self.village.place.grid.grid_manager.migrating[neighbor].extend(

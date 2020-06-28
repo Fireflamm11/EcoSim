@@ -26,7 +26,9 @@ def test_world():
     board = Board(world, root)
 
     def step():
+        print('##############################################################')
         print('Date: ', world.date)
+        print('##############################################################')
         world.step()
         board.step()
         # print('Dead People: ', len(world.dead_pops))

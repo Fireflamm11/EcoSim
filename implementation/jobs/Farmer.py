@@ -18,3 +18,7 @@ class Farmer(Job):
     @classmethod
     def on_migration(cls, pop, **kwargs):
         pop.village.free_land += 1
+
+    @classmethod
+    def on_death(cls, pop, **kwargs):
+        pop.village.free_land += 1

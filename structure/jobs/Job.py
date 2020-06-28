@@ -17,3 +17,8 @@ class Job(ABC):
     @abstractmethod
     def on_migration(cls, pop, **kwargs):
         pass
+
+    @classmethod
+    @abstractmethod
+    def on_death(cls, pop, **kwargs):
+        pass

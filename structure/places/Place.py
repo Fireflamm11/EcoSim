@@ -29,7 +29,6 @@ class Place:
 
     def migration(self, pops):
         [pop.on_migration(self.settlements[0]) for pop in pops]
-        self.settlements[0].pops.extend(pops)
 
     def add_observer(self, observer):
         self.observers.append(observer)

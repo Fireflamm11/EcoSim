@@ -14,8 +14,6 @@ class Pop:
 
         self.inventory['food'] = []
 
-        self.village.job_distribution[self.job].append(self)
-
     def change_job(self, new_job):
         self.village.job_distribution[self.job].remove(self)
         self.job = new_job
@@ -23,7 +21,14 @@ class Pop:
 
     def on_migration(self, new_village):
         self.job.on_migration(self)
+        self.village.pops.remove(self)
         self.village.job_distribution[self.job].remove(self)
         self.job = Unemployed
         self.village = new_village
+        self.village.pops.append(self)
         self.village.job_distribution[self.job].append(self)
+
+    def on_death(self):
+        self.village.job_distribution[self.job].remove(self)
+        self.village.pops.remove(self)
+        self.job.on_death(self)
