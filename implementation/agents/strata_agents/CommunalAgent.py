@@ -1,5 +1,7 @@
 import numpy as np
 
+from implementation.jobs.Farmer import Farmer
+from implementation.jobs.Unemployed import Unemployed
 from structure.PopFactory import PopFactory
 from structure.agents.StrataAgent import StrataAgent
 
@@ -9,24 +11,19 @@ class CommunalAgent(StrataAgent):
     # Begin of the overwritten ABC-Methods
     @classmethod
     def job_redistribution(cls, agent, **kwargs):
-        if len(agent.village.job_distribution["Unemployed"]) <= \
+        if len(agent.village.job_distribution[Unemployed]) <= \
                 agent.village.free_land:
             new_farmer = agent.village.free_land
             idx = np.random.randint(
-                len(agent.village.job_distribution["Unemployed"]),
+                len(agent.village.job_distribution[Unemployed]),
                 size=new_farmer)
-            new_farmer = [agent.village.job_distribution['Unemployed'][i] for i
+            new_farmer = [agent.village.job_distribution[Unemployed][i] for i
                           in idx]
-            [pop.change_job('Farmer') for pop in new_farmer]
+            [pop.change_job(Farmer) for pop in new_farmer]
 
     @classmethod
     def work(cls, agent, **kwargs):
-        if agent.village.free_land > 0:
-            agent.village.food += agent.village.place.soil_quality * len(
-                agent.village.job_distribution['Farmer'])
-        else:
-            agent.village.food += \
-                agent.village.place.soil_quality * agent.village.arable_land
+        [job.work(agent) for job in agent.village.job_distribution]
 
     @classmethod
     def consume(cls, agent, **kwargs):

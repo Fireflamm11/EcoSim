@@ -1,5 +1,8 @@
+from implementation.jobs.Unemployed import Unemployed
+
+
 class Pop:
-    def __init__(self, village, job='Unemployed', food_need=1):
+    def __init__(self, village, job=Unemployed, food_need=1):
         self.inventory = {}
         self.village = village
         self.village.pops.append(self)
@@ -11,7 +14,7 @@ class Pop:
 
         self.inventory['food'] = []
 
-        self.village.job_distribution["Unemployed"].append(self)
+        self.village.job_distribution[self.job].append(self)
 
     def change_job(self, new_job):
         self.village.job_distribution[self.job].remove(self)
@@ -19,10 +22,8 @@ class Pop:
         self.village.job_distribution[self.job].append(self)
 
     def on_migration(self, new_village):
-        # TODO Better management to free resources when migrating
-        if self.job == 'Farmer':
-            self.village.free_land += 1
+        self.job.on_migration(self)
         self.village.job_distribution[self.job].remove(self)
-        self.job = 'Unemployed'
+        self.job = Unemployed
         self.village = new_village
         self.village.job_distribution[self.job].append(self)
