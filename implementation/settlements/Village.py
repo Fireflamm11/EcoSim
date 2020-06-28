@@ -8,7 +8,7 @@ class Village(Settlement):
         self.strata = strata
         self.arable_land = self.place.arable_land / self.place.village_counter
 
-        self.job_types = ["Farmer", "Land Clearer", "Unemployed"]
+        self.job_types = ["Farmer", "LandClearer", "Unemployed"]
         self.job_distribution = dict.fromkeys(self.job_types)
         for job in self.job_distribution:
             self.job_distribution[job] = []
@@ -19,9 +19,9 @@ class Village(Settlement):
         if self.arable_land < len(self.job_distribution["Farmer"]):
             self.free_land = 0
         else:
-            self.free_land = self.arable_land - len(
-                self.job_distribution["Farmer"])
+            self.free_land = int(self.arable_land - len(
+                self.job_distribution["Farmer"]))
 
         # TODO Double init for lists?
-        for job_type in self.job_types:
-            self.job_distribution[job_type] = []
+        # for job_type in self.job_types:
+        #     self.job_distribution[job_type] = []

@@ -9,10 +9,15 @@ class CommunalAgent(StrataAgent):
     # Begin of the overwritten ABC-Methods
     @classmethod
     def job_redistribution(cls, agent, **kwargs):
-        if len(agent.village.job_distribution["Unemployed"]) > 0:
-            agent.village.job_distribution["Farmer"].extend(
-                agent.village.job_distribution["Unemployed"])
-            agent.village.job_distribution["Unemployed"] = []
+        if len(agent.village.job_distribution["Unemployed"]) <= \
+                agent.village.free_land:
+            new_farmer = agent.village.free_land
+            idx = np.random.randint(
+                len(agent.village.job_distribution["Unemployed"]),
+                size=new_farmer)
+            new_farmer = [agent.village.job_distribution['Unemployed'][i] for i
+                          in idx]
+            [pop.change_job('Farmer') for pop in new_farmer]
 
     @classmethod
     def work(cls, agent, **kwargs):
@@ -31,11 +36,9 @@ class CommunalAgent(StrataAgent):
         agent.starving = int(-agent.village.food / 2)
         if agent.starving > len(agent.village.pops):
             agent.starving = len(agent.village.pops)
-
         if agent.village.food < 0:
             health_change = -50
             agent.village.place.changed_values['starving'] = True
-            print(len(agent.village.pops), agent.starving)
         else:
             health_change = 10
 
