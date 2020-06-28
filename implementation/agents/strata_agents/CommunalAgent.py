@@ -14,6 +14,7 @@ class CommunalAgent(StrataAgent):
         if len(agent.village.job_distribution[Unemployed]) <= \
                 agent.village.free_land:
             new_farmer = agent.village.free_land
+            agent.village.free_land -= new_farmer
             idx = np.random.randint(
                 len(agent.village.job_distribution[Unemployed]),
                 size=new_farmer)

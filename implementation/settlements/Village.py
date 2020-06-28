@@ -24,7 +24,3 @@ class Village(Settlement):
         else:
             self.free_land = int(self.arable_land - len(
                 self.job_distribution[Farmer]))
-
-        # TODO Double init for lists?
-        # for job_type in self.job_types:
-        #     self.job_distribution[job_type] = []
