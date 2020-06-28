@@ -16,6 +16,11 @@ class StrataAgent(ABC, Agent):
 
     @classmethod
     @abstractmethod
+    def job_redistribution(cls, agent, **kwargs):
+        pass
+
+    @classmethod
+    @abstractmethod
     def work(cls, agent, **kwargs):
         pass
 

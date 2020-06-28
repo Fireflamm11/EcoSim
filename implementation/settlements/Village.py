@@ -8,7 +8,22 @@ class Village(Settlement):
     def __init__(self, place, start_pops, strata='Communal'):
         super().__init__(place)
         self.strata = strata
-        self.arable_land = np.random.normal(200, 10) + 10
+        self.arable_land = self.place.arable_land / self.place.village_counter
+
+        self.job_types = ["Farmer", "Land Clearer", "Unemployed"]
+        self.job_distribution = dict.fromkeys(self.job_types)
+        for job in self.job_distribution:
+            self.job_distribution[job] = []
+
+
+        if self.arable_land < len(self.job_distribution["Farmer"]):
+            self.free_land = 0
+        else:
+            self.free_land = self.arable_land - len(self.job_distribution["Farmer"])
+
+
+        for job_type in self.job_types:
+            self.job_distribution[job_type] = []
 
         for idx in range(start_pops):
             PopFactory.generate_pops(self, 2, "farmer")

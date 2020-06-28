@@ -8,6 +8,13 @@ class CommunalAgent(StrataAgent):
 
     # Begin of the overwritten ABC-Methods
     @classmethod
+    def job_redistribution(cls, agent, **kwargs):
+        if len(agent.village.job_distribution["Unemployed"]) > 0:
+            print(agent.village.free_land)
+            agent.village.job_distribution["Farmer"].extend(agent.village.job_distribution["Unemployed"])
+            agent.village.job_distribution["Unemployed"] = []
+
+    @classmethod
     def work(cls, agent, **kwargs):
         if len(agent.village.pops) <= agent.village.arable_land:
             agent.village.food += agent.village.place.soil_quality * len(
@@ -62,3 +69,4 @@ class CommunalAgent(StrataAgent):
         else:
             agent.village.place.changed_values['pops'] = len(
                 agent.village.pops)
+

@@ -20,8 +20,11 @@ class VillageAgent(Agent, Place):
         self._strata_agent: StrataAgent = self.update_strata()
 
     def step(self):
+        self._strata_agent.job_redistribution(self)
+
         self._strata_agent.work(self)
         self._strata_agent.consume(self)
+
         self._strata_agent.pop_development(self)
         self._strata_agent.settlement_development(self)
         self.starving = 0
