@@ -66,7 +66,7 @@ class VillageAgent(Agent, Place):
                 self.kill_pop(pop)
 
     def migrate_pops(self):
-        if self.starving == 0:
+        if self.starving <= 0:
             return
 
         moving_idx = np.random.default_rng().choice(len(self.village.pops),

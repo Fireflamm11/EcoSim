@@ -1,5 +1,5 @@
 class Pop:
-    def __init__(self, village, job='unemployed', food_need=1):
+    def __init__(self, village, job='Unemployed', food_need=1):
         self.inventory = {}
         self.village = village
         self.village.pops.append(self)

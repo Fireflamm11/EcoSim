@@ -10,15 +10,15 @@ class CommunalAgent(StrataAgent):
     @classmethod
     def job_redistribution(cls, agent, **kwargs):
         if len(agent.village.job_distribution["Unemployed"]) > 0:
-            print(agent.village.free_land)
-            agent.village.job_distribution["Farmer"].extend(agent.village.job_distribution["Unemployed"])
+            agent.village.job_distribution["Farmer"].extend(
+                agent.village.job_distribution["Unemployed"])
             agent.village.job_distribution["Unemployed"] = []
 
     @classmethod
     def work(cls, agent, **kwargs):
-        if len(agent.village.pops) <= agent.village.arable_land:
+        if agent.village.free_land > 0:
             agent.village.food += agent.village.place.soil_quality * len(
-                agent.village.pops)
+                agent.village.job_distribution['Farmer'])
         else:
             agent.village.food += \
                 agent.village.place.soil_quality * agent.village.arable_land
@@ -34,7 +34,8 @@ class CommunalAgent(StrataAgent):
 
         if agent.village.food < 0:
             health_change = -50
-            agent.village.place.changed_values['starving'] = False
+            agent.village.place.changed_values['starving'] = True
+            print(len(agent.village.pops), agent.starving)
         else:
             health_change = 10
 
@@ -47,8 +48,8 @@ class CommunalAgent(StrataAgent):
 
     @classmethod
     def pop_development(cls, agent, **kwargs):
-        agent.ageing()
         agent.migrate_pops()
+        agent.ageing()
 
     @classmethod
     def settlement_development(cls, agent, **kwargs):
@@ -61,7 +62,7 @@ class CommunalAgent(StrataAgent):
     def grow_pop(cls, agent, new_pops):
         for _ in range(new_pops):
             if np.random.random() * 100 <= 3:
-                PopFactory.generate_pops(agent.village, job='farmer',
+                PopFactory.generate_pops(agent.village, job='Unemployed',
                                          food_need=2)
         if agent.village.place.changed_values.get('pops') is not None:
             agent.village.place.changed_values['pops'] += len(
@@ -69,4 +70,3 @@ class CommunalAgent(StrataAgent):
         else:
             agent.village.place.changed_values['pops'] = len(
                 agent.village.pops)
-

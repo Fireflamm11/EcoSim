@@ -1,5 +1,3 @@
-import numpy as np
-
 from structure.PopFactory import PopFactory
 from structure.settlements.Settlement import Settlement
 
@@ -15,15 +13,15 @@ class Village(Settlement):
         for job in self.job_distribution:
             self.job_distribution[job] = []
 
+        for idx in range(start_pops):
+            PopFactory.generate_pops(self, 2, "Unemployed")
 
         if self.arable_land < len(self.job_distribution["Farmer"]):
             self.free_land = 0
         else:
-            self.free_land = self.arable_land - len(self.job_distribution["Farmer"])
+            self.free_land = self.arable_land - len(
+                self.job_distribution["Farmer"])
 
-
+        # TODO Double init for lists?
         for job_type in self.job_types:
             self.job_distribution[job_type] = []
-
-        for idx in range(start_pops):
-            PopFactory.generate_pops(self, 2, "farmer")

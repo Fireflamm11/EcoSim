@@ -17,4 +17,3 @@ class Tile(Place):
         for settlement in self.settlements:
             counter += settlement.arable_land
         self.free_land = self.arable_land - counter
-        print(self.free_land)
