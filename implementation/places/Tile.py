@@ -10,4 +10,11 @@ class Tile(Place):
         super().__init__(grid, x, y)
         self.soil_quality = randint(1, 2)
         self.arable_land = int(np.random.normal(100, 25))
-        self.free_land = range(0, self.arable_land)
+
+        self.village_counter = 1
+
+        counter = 0
+        for settlement in self.settlements:
+            counter += settlement.arable_land
+        self.free_land = self.arable_land - counter
+        print(self.free_land)
