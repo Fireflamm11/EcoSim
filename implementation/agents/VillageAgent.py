@@ -75,12 +75,12 @@ class VillageAgent(Agent, Place):
         moving_pops = [self.village.pops[idx] for idx in moving_idx]
         counter = 0
 
-        if len(moving_idx) < 8:
+        if len(moving_idx) < 6:
             indices = np.sort(
-                np.random.default_rng().choice(8, size=8, replace=False))
+                np.random.default_rng().choice(6, size=6, replace=False))
         else:
             indices = np.sort(
-                np.random.default_rng().choice(len(moving_idx), size=8,
+                np.random.default_rng().choice(len(moving_idx), size=6,
                                                replace=False))
 
         migrating = np.split(np.array(moving_pops), indices)
