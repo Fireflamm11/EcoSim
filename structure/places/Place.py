@@ -18,7 +18,6 @@ class Place:
         self.nomads = []
 
     def step(self):
-        self.get_neighbors()
         for nmd in self.nomads:
             nmd.step()
         for stl in self.settlements:
@@ -77,3 +76,6 @@ class Place:
         for direction in self.directions:
             self.neighbors[direction] = self.get_neighbor(direction)
         return self.neighbors
+
+
+

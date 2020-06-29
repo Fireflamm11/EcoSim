@@ -19,8 +19,4 @@ class Village(Settlement):
         for idx in range(start_pops):
             PopFactory.generate_pops(self, 2, 'Unemployed')
 
-        if self.arable_land < len(self.job_distribution[Farmer]):
-            self.free_land = 0
-        else:
-            self.free_land = int(self.arable_land - len(
-                self.job_distribution[Farmer]))
+        self.free_land = int(self.arable_land)

@@ -1,4 +1,8 @@
 from random import randint
+from implementation.weathers.AverageWeather import AverageWeather
+from implementation.weathers.Warm_Summer import WarmSummerWeather
+from implementation.weathers.Stormy import StormyWeather
+
 
 import numpy as np
 
@@ -13,7 +17,25 @@ class Tile(Place):
 
         self.village_counter = 1
 
-        counter = 0
-        for settlement in self.settlements:
-            counter += settlement.arable_land
-        self.free_land = self.arable_land - counter
+        self.free_land = int(self.arable_land)
+
+        self.weathers = [AverageWeather, WarmSummerWeather, StormyWeather]
+        self.weather = None
+        self.weather_probability = dict.fromkeys(self.weathers)
+        self.standard_probability = [0.7, 0.2, 0.1]
+        for weather in self.weather_probability:
+            self.weather_probability[weather] = self.standard_probability
+# missing: changabel? maybe redundant
+
+
+    def step(self):
+        self.set_weather()
+        print(self.weather)
+        super().step()
+
+    def set_weather(self):
+        idx = np.random.choice(3, p=self.standard_probability)
+        self.weather = self.weathers[idx]
+
+
+

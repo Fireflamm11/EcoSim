@@ -14,6 +14,8 @@ class CommunalAgent(StrataAgent):
         if agent.village.free_land == 0:
             return
 
+        print(agent.village.free_land)
+
         if len(agent.village.job_distribution[Unemployed]) <= \
                 agent.village.free_land:
             new_farmer = min(agent.village.free_land,
