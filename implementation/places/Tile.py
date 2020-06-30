@@ -21,20 +21,17 @@ class Tile(Place):
 
         self.weathers = [AverageWeather, WarmSummerWeather, StormyWeather]
         self.weather = None
-        self.weather_probability = dict.fromkeys(self.weathers)
-        self.standard_probability = [0.7, 0.2, 0.1]
-        for weather in self.weather_probability:
-            self.weather_probability[weather] = self.standard_probability
-# missing: changabel? maybe redundant
-
+        self.weather_probability = [0.7, 0.2, 0.1]
+        self.weather_impact = 1
+        self.food_production_modifier = self.soil_quality * self.weather_impact
 
     def step(self):
         self.set_weather()
-        print(self.weather)
+        self.weather.tile_impact(self)
         super().step()
 
     def set_weather(self):
-        idx = np.random.choice(3, p=self.standard_probability)
+        idx = np.random.choice(3, p=self.weather_probability)
         self.weather = self.weathers[idx]
 
 

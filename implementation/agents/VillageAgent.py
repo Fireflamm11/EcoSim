@@ -15,7 +15,10 @@ class VillageAgent(Agent, Place):
         self.path_strata_agents = 'implementation.agents.strata_agents.'
         self.village = village
 
-        self.starving = 0
+        # self.starving = 0
+        self.food_production_modifier = float(self.village.place.soil_quality) * float(self.village.place.weather_impact)
+        self.light_starving = dict.fromkeys(self.village.job_types)
+        self.heavy_starving = dict.fromkeys(self.village.job_types)
 
         self._strata_agent: StrataAgent = self.update_strata()
 
@@ -27,7 +30,7 @@ class VillageAgent(Agent, Place):
 
         self._strata_agent.pop_development(self)
         self._strata_agent.settlement_development(self)
-        self.starving = 0
+        """self.starving = 0"""
 
     def strata_agent(self):
         return self._strata_agent
@@ -64,12 +67,13 @@ class VillageAgent(Agent, Place):
             if pop.health <= 0:
                 self.kill_pop(pop)
 
-    def migrate_pops(self):
+
+""" def migrate_pops(self):
         if self.starving <= 0:
             return
 
         moving_idx = np.random.default_rng().choice(len(self.village.pops),
-                                                    size=self.starving,
+                                                    size=int(self.starving),
                                                     replace=False)
         moving_pops = [self.village.pops[idx] for idx in moving_idx]
         counter = 0
@@ -91,3 +95,4 @@ class VillageAgent(Agent, Place):
             self.village.place.grid.grid_manager.migrating[neighbor].extend(
                 migrating[counter])
             counter += 1
+"""
