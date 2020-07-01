@@ -38,13 +38,29 @@ class CommunalAgent(StrataAgent):
 
         agent.village.place.changed_values['starving'] = False
         new_pops = 0
+        for job in agent.village.job_types:
+            agent.light_starving[job] = 0
+            agent.heavy_starving[job] = 0
+        print(11111111111111111111111111111111111111111111111111111111111111111111)
         print(agent.village.food)
+        print(len(agent.village.pops))
+        print(len(agent.village.job_distribution[Farmer]))
 # try to do new food system system based on jobs, Farmer will first try to feed themselves, than other jobs,
 # than unemployed?
 # differentiate between light and heavy starving for pops, whether they can feed once or twice
         if agent.village.food <= len(agent.village.job_distribution[Farmer]) * 2:
-            agent.village.food -= len(agent.village.job_distribution[Farmer]) * 2
-            if int(-agent.village.food) <= len(agent.village.job_distribution[Farmer]):
+            print(2)
+            agent.village.food -= len(agent.village.job_distribution[Farmer])
+            agent.heavy_starving[Farmer] = int(-min(agent.village.food, 0))
+            agent.light_starving[Farmer] = int(len(agent.village.job_distribution[Farmer]) - agent.village.food) - \
+                                           (agent.heavy_starving[Farmer] * 2)
+            for job in agent.village.job_types:
+                if job == Farmer:
+                    continue
+                agent.heavy_starving[job] = len(agent.village.job_distribution[job])
+                # all other pops starve completely
+
+            """if int(-agent.village.food) <= len(agent.village.job_distribution[Farmer]):
                 agent.light_starving[Farmer] = int(-agent.village.food)    # is the case when Food deficit is smaller
             else:                                                  # than pops, all pops can eat once at least
                 agent.heavy_starving[Farmer] = int(-agent.village.food) - len(agent.village.job_distribution[Farmer])
@@ -55,10 +71,11 @@ class CommunalAgent(StrataAgent):
                 if job == Farmer:
                     continue
                 agent.heavy_starving[job] = len(agent.village.job_distribution[job])
-                # all other pops starve completely
+                # all other pops starve completely"""
 
         # checking if enough food for all unemployed, than only those starve
         elif agent.village.food >= (len(agent.village.pops) - len(agent.village.job_distribution[Unemployed])) * 2:
+            print(1)
             agent.village.food -= len(agent.village.pops)
             agent.heavy_starving[Unemployed] = int(-min(agent.village.food, 0))
             agent.light_starving[Unemployed] = int(-min(agent.village.food - len(agent.village.pops), 0)
@@ -67,7 +84,7 @@ class CommunalAgent(StrataAgent):
         # starving, lowering the amount of light starving (trying without if statement)
 
         else:
-            print(1)
+            print("this shouldn't jet happen, something is wrong")
         print(agent.light_starving)
         print(agent.heavy_starving)
 
