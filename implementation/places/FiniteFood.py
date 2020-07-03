@@ -1,4 +1,4 @@
-from structure.Place import Place
+from structure.places.Place import Place
 
 
 class FiniteFood(Place):

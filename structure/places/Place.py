@@ -1,20 +1,41 @@
 class Place:
 
     def __init__(self, grid, x, y):
+        self.observers = []
+        self.changed_values = {}
+        self.neighbors = {}
+
+        self.directions = ["nw", "ne", "e", "se", "sw", "w"]
+
         self.grid = grid
         self.x = x
         self.y = y
 
         self.resources = {}
+        """self.arable_land = np.random.random() * 100 + 10"""
 
-        self.settlement = []
+        self.settlements = []
         self.nomads = []
 
     def step(self):
+        self.get_neighbors()
         for nmd in self.nomads:
             nmd.step()
-        for stl in self.settlement:
+        for stl in self.settlements:
             stl.step()
+        if self.changed_values:
+            self.notify_observer()
+        self.changed_values.clear()
+
+    def migration(self, pops):
+        [pop.on_migration(self.settlements[0]) for pop in pops]
+
+    def add_observer(self, observer):
+        self.observers.append(observer)
+
+    def notify_observer(self):
+        for obs in self.observers:
+            obs.notify(self.changed_values)
 
     def get_neighbor(self, direction):
         # We have to differ between the rows on how to determine northern and
@@ -34,9 +55,8 @@ class Place:
             elif direction == 'w':
                 return self.grid.places[self.x - 1][self.y]
             else:
-                raise ValueError(
-                    direction +
-                    ' Invalid direction for getting neighbor of place')
+                raise ValueError(direction + ' Invalid direction for getting '
+                                             'neighbor of place')
         except IndexError:
             if direction == 'ne':
                 return self.grid.places[0][self.y - 1]
@@ -52,3 +72,8 @@ class Place:
                 return self.grid.places[x][y]
             elif direction == 'sw':
                 return self.grid.places[self.x - 1 + (self.y % 2)][0]
+
+    def get_neighbors(self):
+        for direction in self.directions:
+            self.neighbors[direction] = self.get_neighbor(direction)
+        return self.neighbors

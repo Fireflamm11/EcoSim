@@ -1,0 +1,6 @@
+[flake8]
+max-doc-length = 119
+max-line-length = 79
+doctests = True
+exclude =  .git, .eggs, __pycache__, build/, dashboard/, data/, dist/, docs/, log/, runs/, tests/, src\agent\pg_arl_attacker, src\agent\pg_arl_defender
+ignore = D,E127,W504
