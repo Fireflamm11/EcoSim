@@ -9,4 +9,4 @@ class StormyWeather(Weather):
 
     @classmethod
     def tile_impact(cls, place, **kwargs):
-        place.weather_impact = 0.7
+        place.weather_impact = 1

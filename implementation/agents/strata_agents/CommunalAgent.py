@@ -14,8 +14,7 @@ class CommunalAgent(StrataAgent):
         if agent.village.free_land == 0:
             return
 
-        if len(agent.village.job_distribution[Unemployed]) <= \
-                agent.village.free_land:
+        if len(agent.village.job_distribution[Unemployed]) > 0:
             new_farmer = min(agent.village.free_land,
                              len(agent.village.job_distribution[Unemployed]))
             agent.village.free_land -= new_farmer
@@ -30,6 +29,7 @@ class CommunalAgent(StrataAgent):
     @classmethod
     def work(cls, agent, **kwargs):
         [job.work(agent) for job in agent.village.job_distribution]
+        print(agent.village.free_land)
 
     @classmethod
     def consume(cls, agent, **kwargs):
@@ -45,6 +45,7 @@ class CommunalAgent(StrataAgent):
         print(agent.village.food)
         print(len(agent.village.pops))
         print(len(agent.village.job_distribution[Farmer]))
+        print(len(agent.village.job_distribution[Unemployed]))
 # try to do new food system system based on jobs, Farmer will first try to feed themselves, than other jobs,
 # than unemployed?
 # differentiate between light and heavy starving for pops, whether they can feed once or twice
@@ -102,10 +103,28 @@ class CommunalAgent(StrataAgent):
 #        else:
 #            health_change = 10
 
-        for pop in agent.village.pops:
-            "pop.health += health_change"
-            agent.village.place.weather.pop_impact(pop)
-            new_pops += 1
+        for job in agent.village.job_types:
+            counter_1 = 0
+            counter_2 = 0
+            for pop in agent.village.job_distribution[job]:
+                # pop.health += health_change
+                agent.village.place.weather.pop_impact(pop)
+                pop.age += 1
+                if pop.age > 40:
+                    pop.health -= 20
+                elif pop.age > 30:
+                    pop.health -= 10
+                if counter_1 < agent.heavy_starving[job]:
+                    pop.health -= 50      # maybe  kill/migrate instead
+                    counter_1 += 1
+                elif counter_2 < agent.light_starving[job]:
+                    pop.health -= 20
+                    counter_2 += 1
+                else:
+                    pop.health += 10
+        new_pops = len(agent.village.pops)
+
+            # not really effective
 
         agent.village.food = 0
         cls.grow_pop(agent, new_pops)
@@ -125,7 +144,7 @@ class CommunalAgent(StrataAgent):
     @classmethod
     def grow_pop(cls, agent, new_pops):
         for _ in range(new_pops):
-            if np.random.random() * 100 <= 5:
+            if np.random.random() * 100 <= 10:
                 PopFactory.generate_pops(agent.village, job='Unemployed',
                                          food_need=2)
 
